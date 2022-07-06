@@ -1,0 +1,166 @@
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and will be removed in 0.15, please use 'weights' instead.
+  warnings.warn(
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and will be removed in 0.15. The current behavior is equivalent to passing `weights=ResNet50_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet50_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Downloading: "https://download.pytorch.org/models/resnet50-0676ba61.pth" to C:\Users\ckinw/.cache\torch\hub\checkpoints\resnet50-0676ba61.pth
+  0%|                                                                                      | 0.00/97.8M [00:00<?, ?B/s]  3%|##3                                                                          | 2.92M/97.8M [00:00<00:03, 27.9MB/s]  7%|#####1                                                                       | 6.48M/97.8M [00:00<00:03, 31.6MB/s] 10%|#######5                                                                     | 9.57M/97.8M [00:00<00:03, 30.7MB/s] 13%|##########3                                                                  | 13.2M/97.8M [00:00<00:02, 32.2MB/s] 17%|############9                                                                | 16.4M/97.8M [00:00<00:02, 31.9MB/s] 20%|###############6                                                             | 19.8M/97.8M [00:00<00:02, 32.0MB/s] 24%|##################3                                                          | 23.3M/97.8M [00:00<00:02, 32.6MB/s] 28%|#####################2                                                       | 26.9M/97.8M [00:00<00:02, 33.2MB/s] 31%|#######################8                                                     | 30.2M/97.8M [00:00<00:02, 32.8MB/s] 35%|##########################6                                                  | 33.9M/97.8M [00:01<00:02, 33.3MB/s] 38%|#############################4                                               | 37.4M/97.8M [00:01<00:01, 33.6MB/s] 42%|################################1                                            | 40.8M/97.8M [00:01<00:01, 33.3MB/s] 45%|##################################8                                          | 44.3M/97.8M [00:01<00:01, 33.2MB/s] 49%|#####################################4                                       | 47.5M/97.8M [00:01<00:01, 32.6MB/s] 52%|########################################2                                    | 51.1M/97.8M [00:01<00:01, 33.0MB/s] 56%|###########################################                                  | 54.7M/97.8M [00:01<00:01, 33.5MB/s] 60%|#############################################8                               | 58.3M/97.8M [00:01<00:01, 33.8MB/s] 63%|################################################6                            | 61.8M/97.8M [00:01<00:01, 33.9MB/s] 67%|###################################################5                         | 65.4M/97.8M [00:02<00:00, 34.0MB/s] 71%|######################################################3                      | 69.0M/97.8M [00:02<00:00, 34.1MB/s] 74%|#########################################################                    | 72.4M/97.8M [00:02<00:00, 33.7MB/s] 78%|###########################################################8                 | 76.0M/97.8M [00:02<00:00, 33.8MB/s] 81%|##############################################################3              | 79.2M/97.8M [00:02<00:00, 31.6MB/s] 85%|#################################################################4           | 83.1M/97.8M [00:02<00:00, 33.3MB/s] 89%|####################################################################2        | 86.7M/97.8M [00:02<00:00, 33.6MB/s] 92%|#######################################################################      | 90.3M/97.8M [00:02<00:00, 33.8MB/s] 96%|#########################################################################9   | 93.9M/97.8M [00:02<00:00, 34.0MB/s]100%|############################################################################7| 97.5M/97.8M [00:03<00:00, 34.1MB/s]100%|#############################################################################| 97.8M/97.8M [00:03<00:00, 33.1MB/s]
+Traceback (most recent call last):
+  File "main.py", line 51, in <module>
+    run_experiment(command)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\train.py", line 70, in run_experiment
+    model = {
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 84, in __init__
+    self.init_model_(self.data_type)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 140, in init_model_
+    self.cuda()
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 689, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 579, in _apply
+    module._apply(fn)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 579, in _apply
+    module._apply(fn)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 602, in _apply
+    param_applied = fn(param)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 689, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\cuda\__init__.py", line 211, in _lazy_init
+    raise AssertionError("Torch not compiled with CUDA enabled")
+AssertionError: Torch not compiled with CUDA enabled
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and will be removed in 0.15, please use 'weights' instead.
+  warnings.warn(
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and will be removed in 0.15. The current behavior is equivalent to passing `weights=ResNet50_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet50_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Traceback (most recent call last):
+  File "main.py", line 51, in <module>
+    run_experiment(command)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\train.py", line 70, in run_experiment
+    model = {
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 84, in __init__
+    self.init_model_(self.data_type)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 140, in init_model_
+    self.cuda()
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 689, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 579, in _apply
+    module._apply(fn)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 579, in _apply
+    module._apply(fn)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 602, in _apply
+    param_applied = fn(param)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 689, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\cuda\__init__.py", line 211, in _lazy_init
+    raise AssertionError("Torch not compiled with CUDA enabled")
+AssertionError: Torch not compiled with CUDA enabled
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and will be removed in 0.15, please use 'weights' instead.
+  warnings.warn(
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and will be removed in 0.15. The current behavior is equivalent to passing `weights=ResNet50_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet50_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Traceback (most recent call last):
+  File "main.py", line 51, in <module>
+    run_experiment(command)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\train.py", line 70, in run_experiment
+    model = {
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 84, in __init__
+    self.init_model_(self.data_type)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 140, in init_model_
+    self.cuda()
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 689, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 579, in _apply
+    module._apply(fn)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 579, in _apply
+    module._apply(fn)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 602, in _apply
+    param_applied = fn(param)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 689, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\cuda\__init__.py", line 211, in _lazy_init
+    raise AssertionError("Torch not compiled with CUDA enabled")
+AssertionError: Torch not compiled with CUDA enabled
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and will be removed in 0.15, please use 'weights' instead.
+  warnings.warn(
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and will be removed in 0.15. The current behavior is equivalent to passing `weights=ResNet50_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet50_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Traceback (most recent call last):
+  File "main.py", line 51, in <module>
+    run_experiment(command)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\train.py", line 70, in run_experiment
+    model = {
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 84, in __init__
+    self.init_model_(self.data_type)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 140, in init_model_
+    self.cuda()
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 689, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 579, in _apply
+    module._apply(fn)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 579, in _apply
+    module._apply(fn)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 602, in _apply
+    param_applied = fn(param)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 689, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\cuda\__init__.py", line 211, in _lazy_init
+    raise AssertionError("Torch not compiled with CUDA enabled")
+AssertionError: Torch not compiled with CUDA enabled
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and will be removed in 0.15, please use 'weights' instead.
+  warnings.warn(
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and will be removed in 0.15. The current behavior is equivalent to passing `weights=ResNet50_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet50_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Traceback (most recent call last):
+  File "main.py", line 51, in <module>
+    run_experiment(command)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\train.py", line 70, in run_experiment
+    model = {
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 84, in __init__
+    self.init_model_(self.data_type)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 140, in init_model_
+    self.cuda()
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 689, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 579, in _apply
+    module._apply(fn)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 579, in _apply
+    module._apply(fn)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 602, in _apply
+    param_applied = fn(param)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 689, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\cuda\__init__.py", line 211, in _lazy_init
+    raise AssertionError("Torch not compiled with CUDA enabled")
+AssertionError: Torch not compiled with CUDA enabled
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and will be removed in 0.15, please use 'weights' instead.
+  warnings.warn(
+C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and will be removed in 0.15. The current behavior is equivalent to passing `weights=ResNet50_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet50_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Traceback (most recent call last):
+  File "main.py", line 51, in <module>
+    run_experiment(command)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\train.py", line 97, in run_experiment
+    model.update(i, x, y, g, epoch)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 147, in update
+    loss_value = self.compute_loss_value_(i, x, y, g, epoch)
+  File "C:\Users\ckinw\Desktop\BalancingGroups\models.py", line 143, in compute_loss_value_
+    return self.loss(self.network(x), y).mean()
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\resnet.py", line 285, in forward
+    return self._forward_impl(x)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\resnet.py", line 273, in _forward_impl
+    x = self.layer1(x)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\container.py", line 139, in forward
+    input = module(input)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torchvision\models\resnet.py", line 155, in forward
+    out = self.bn3(out)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\modules\batchnorm.py", line 168, in forward
+    return F.batch_norm(
+  File "C:\Users\ckinw\anaconda3\envs\balancinggroups\lib\site-packages\torch\nn\functional.py", line 2438, in batch_norm
+    return torch.batch_norm(
+RuntimeError: CUDA out of memory. Tried to allocate 392.00 MiB (GPU 0; 6.00 GiB total capacity; 3.51 GiB already allocated; 88.38 MiB free; 3.63 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF

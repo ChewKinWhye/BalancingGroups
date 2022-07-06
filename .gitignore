@@ -2,3 +2,5 @@ data
 slurm_outputs
 debug
 *.pyc
+data
+.idea

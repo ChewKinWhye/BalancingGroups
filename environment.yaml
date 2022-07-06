@@ -1,12 +1,14 @@
 name: balancinggroups
 channels:
   - pytorch
+  - nvidia
+  - conda-forge
 dependencies:
   - python=3.8
   - pip
-  - pytorch 
+  - pytorch::pytorch
   - torchvision 
-  - cudatoolkit=10.2
+  - nvidia::cudatoolkit=10.2
   - pip:
     - gdown>=4.2.0
     - matplotlib>=3.4.3
