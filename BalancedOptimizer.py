@@ -1,11 +1,17 @@
 import torch
 class BalancedOptimizer(torch.optim.Optimizer):
-    def init(self, params, lr=1e-3, eps=1e-6, weight_decay=0.0):
-        defaults = dict(lr=lr, eps=eps, weight_decay=weight_decay)
+    def __init__(self, params, lr, weight_decay):
+        self.gradients = {"majority_batch": {}, "minority_batch": {}}
+        self.weight_decay = weight_decay
+        self.lr = lr
+        defaults = dict(lr=lr, weight_decay=weight_decay)
         super(BalancedOptimizer, self).__init__(params, defaults)
-    def step(self, closure=None):
-        # Loop through each param group
+    def store_gradients(self, name):
+        params_with_grad_total = []
+        d_p_list_total = []
         for group in self.param_groups:
+            # print(group)
+            # Store all parameters with gradients, and their corresponding gradients
             params_with_grad = []
             d_p_list = []
             # Loop through each parameter
@@ -13,6 +19,27 @@ class BalancedOptimizer(torch.optim.Optimizer):
                 if p.grad is not None:
                     params_with_grad.append(p)
                     d_p_list.append(p.grad)
+            params_with_grad_total.append(params_with_grad)
+            d_p_list_total.append(d_p_list)
+        self.gradients[name]["params"] = params_with_grad_total
+        self.gradients[name]["d_p"] = d_p_list_total
+
+    def step(self, closure=None):
+        # Loop through each param group
+        for params_with_grad, d_p_list in zip(self.gradients["majority_batch"]["params"], self.gradients["majority_batch"]["d_p"]):
             for i, param in enumerate(params_with_grad):
                 d_p = d_p_list[i]
-                param.add_(d_p, alpha=-self.lr)
+                with torch.no_grad():
+                    if self.weight_decay != 0:
+                        d_p = d_p.add(param, alpha=self.weight_decay)
+                    param.add_(d_p, alpha=-self.lr/2)
+        for params_with_grad, d_p_list in zip(self.gradients["minority_batch"]["params"], self.gradients["minority_batch"]["d_p"]):
+            for i, param in enumerate(params_with_grad):
+                d_p = d_p_list[i]
+                with torch.no_grad():
+                    param.add_(d_p, alpha=-self.lr/2)
+
+        self.gradients["majority_batch"]["params"] = []
+        self.gradients["majority_batch"]["d_p"] = []
+        self.gradients["minority_batch"]["params"] = []
+        self.gradients["minority_batch"]["d_p"] = []

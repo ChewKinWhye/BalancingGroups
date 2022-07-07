@@ -345,8 +345,15 @@ def get_loaders(data_path, dataset_name, batch_size, method="erm", duplicates=No
         subsample_what = None
 
     dataset_tr = Dataset(data_path, "tr", subsample_what, duplicates)
-
-    if method == "rwg" or method == "dro":
+    dataset_tr_minority = Dataset(data_path, "tr", subsample_what, duplicates)
+    minority_idxs = []
+    for idx in range(len(dataset_tr_minority)):
+        _, _, y, g = dataset_tr_minority.__getitem__(idx)
+        group = dataset_tr_minority.nb_groups * y + g
+        if group == 1 or group == 2:
+            minority_idxs.append(idx)
+    dataset_tr_minority = torch.utils.data.Subset(dataset_tr_minority, minority_idxs)
+    if method == "rwg" or method == "dro" or method == "lrr":
         weights_tr = dataset_tr.wg
     elif method == "rwy":
         weights_tr = dataset_tr.wy
@@ -355,6 +362,7 @@ def get_loaders(data_path, dataset_name, batch_size, method="erm", duplicates=No
 
     return {
         "tr": dl(dataset_tr, batch_size, weights_tr is None, weights_tr),
-        "va": dl(Dataset(data_path, "va", None), 128, False, None),
-        "te": dl(Dataset(data_path, "te", None), 128, False, None),
+        "tr_min": dl(dataset_tr_minority, batch_size, False, None),
+        "va": dl(Dataset(data_path, "va", None), batch_size, False, None),
+        "te": dl(Dataset(data_path, "te", None), batch_size, False, None),
     }

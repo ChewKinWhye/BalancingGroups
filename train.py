@@ -73,9 +73,10 @@ def run_experiment(args):
         "subg": models.ERM,
         "rwy": models.ERM,
         "rwg": models.ERM,
+        "lrr": models.ERM,
         "dro": models.GroupDRO,
         "jtt": models.JTT
-    }[args["method"]](args, loaders["tr"])
+    }[args["method"]](args, loaders["tr"], loaders["tr_min"])
 
     last_epoch = 0
     best_selec_val = float('-inf')
@@ -92,7 +93,7 @@ def run_experiment(args):
                 args["batch_size"],
                 args["method"],
                 model.weights.tolist())
-
+        # For every batch
         for i, x, y, g in loaders["tr"]:
             model.update(i, x, y, g, epoch)
 
@@ -129,7 +130,7 @@ if __name__ == "__main__":
             ["waterbirds", "celeba", "multinli", "civilcomments"])
 
         args["method"] = randl(
-            ["erm", "suby", "subg", "rwy", "rwg", "dro", "jtt"])
+            ["erm", "suby", "subg", "rwy", "rwg", "dro", "jtt", "lrr"])
 
         args["num_epochs"] = {
             "waterbirds": 300 + 60,

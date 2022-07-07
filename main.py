@@ -21,7 +21,9 @@ if __name__ == "__main__":
     torch.manual_seed(hparams_seed)
     args["hparams_seed"] = hparams_seed
     args["dataset"] = "waterbirds"
-    args["method"] = "erm"
+    # args["method"] = "erm"
+    args["method"] = "lrr"
+
     args["num_epochs"] = {
         "waterbirds": 300 + 60,
         "celeba": 50 + 10,
@@ -29,16 +31,15 @@ if __name__ == "__main__":
         "civilcomments": 5 + 2
     }[args["dataset"]]
 
-    # TODO What is eta?
+    # For DRO
     args["eta"] = 0.1
     args["lr"] = 1e-4
+    args["lr_eta"] = 0.1
     args["weight_decay"] = 1e-2
-    args["batch_size"] = 128
-    # TODO What is up?
+    args["batch_size"] = 32
+    # For JTT
     args["up"] = 100
-    # TODO What is T?
     args["T"] = 60
-
     for init_seed in range(args["num_init_seeds"]):
         args["init_seed"] = init_seed
         commands.append(dict(args))

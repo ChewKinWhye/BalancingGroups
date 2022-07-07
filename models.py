@@ -1,9 +1,9 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
 
+from transformers import BertForSequenceClassification, AdamW, get_scheduler
 import torch
 import torchvision
-from transformers import BertForSequenceClassification, AdamW, get_scheduler
-
+from BalancedOptimizer import BalancedOptimizer
 
 class ToyNet(torch.nn.Module):
     def __init__(self, dim, gammas):
@@ -66,13 +66,14 @@ def get_sgd_optim(network, lr, weight_decay):
         network.parameters(),
         lr=lr,
         weight_decay=weight_decay,
-        momentum=0.9)
+        momentum=0)
 
 
 class ERM(torch.nn.Module):
-    def __init__(self, hparams, dataloader):
+    def __init__(self, hparams, dataloader, dataloader_min):
         super().__init__()
         self.hparams = dict(hparams)
+        self.dataloader_min = dataloader_min
         dataset = dataloader.dataset
         self.n_batches = len(dataloader)
         self.data_type = dataset.data_type
@@ -94,11 +95,14 @@ class ERM(torch.nn.Module):
             self.network = torchvision.models.resnet.resnet50(pretrained=True)
             self.network.fc = torch.nn.Linear(
                 self.network.fc.in_features, self.n_classes)
-
-            self.optimizer = optimizers['sgd'](
-                self.network,
-                self.hparams['lr'],
-                self.hparams['weight_decay'])
+            if self.hparams["method"] == "lrr":
+                print("Balanced Optimizer")
+                self.optimizer = BalancedOptimizer(self.network.parameters(), lr=self.hparams['lr'], weight_decay=self.hparams['weight_decay'])
+            else:
+                self.optimizer = optimizers['sgd'](
+                    self.network,
+                    self.hparams['lr'],
+                    self.hparams['weight_decay'])
 
             self.lr_scheduler = None
             self.loss = torch.nn.CrossEntropyLoss(reduction="none")
@@ -147,13 +151,47 @@ class ERM(torch.nn.Module):
         loss_value = self.compute_loss_value_(i, x, y, g, epoch)
 
         if loss_value is not None:
-            self.optimizer.zero_grad()
-            loss_value.backward()
+            if self.hparams["method"] == "lrr":
+                # First, we obtain the gradients for the whole minority dataset
+                self.optimizer.zero_grad()
+                for i_min, x_min, y_min, g_min in self.dataloader_min:
+                    x_min, y_min, g = x_min.cuda(), y_min.cuda(), g_min.cuda()
+                    # Normalize to account for batch accumulation
+                    minority_total_loss = self.compute_loss_value_(i_min, x_min, y_min, g_min, epoch) / len(self.dataloader_min)
+                    # Accumulate the minority loss gradients
+                    minority_total_loss.backward()
+                self.optimizer.store_gradients("minority_total")
 
-            if self.clip_grad:
-                torch.nn.utils.clip_grad_norm_(self.network.parameters(), 1.0)
 
-            self.optimizer.step()
+                groups = self.n_groups * y + g
+                minority_idx = torch.where((groups==1) | (groups==2))
+                # Obtain minority gradients
+                minority_loss = self.compute_loss_value_(i[minority_idx], x[minority_idx], y[minority_idx], g[minority_idx], epoch)
+                self.optimizer.zero_grad()
+                minority_loss.backward()
+                if self.clip_grad:
+                    torch.nn.utils.clip_grad_norm_(self.network.parameters(), 1.0)
+                self.optimizer.store_gradients("minority_batch")
+
+                majority_idx = torch.where((groups==0) | (groups==3))
+                # Obtain majority gradients
+                majority_loss = self.compute_loss_value_(i[majority_idx], x[majority_idx], y[majority_idx], g[majority_idx], epoch)
+                self.optimizer.zero_grad()
+                majority_loss.backward()
+                if self.clip_grad:
+                    torch.nn.utils.clip_grad_norm_(self.network.parameters(), 1.0)
+                self.optimizer.store_gradients("majority_batch")
+
+                self.optimizer.step()
+
+            else:
+                self.optimizer.zero_grad()
+                loss_value.backward()
+
+                if self.clip_grad:
+                    torch.nn.utils.clip_grad_norm_(self.network.parameters(), 1.0)
+
+                self.optimizer.step()
 
             if self.lr_scheduler is not None:
                 self.lr_scheduler.step()
@@ -216,8 +254,8 @@ class ERM(torch.nn.Module):
 
 
 class GroupDRO(ERM):
-    def __init__(self, hparams, dataset):
-        super(GroupDRO, self).__init__(hparams, dataset)
+    def __init__(self, hparams, dataset, dataloader_min):
+        super(GroupDRO, self).__init__(hparams, dataset, dataloader_min)
         self.register_buffer(
             "q", torch.ones(self.n_classes * self.n_groups).cuda())
 
@@ -248,8 +286,8 @@ class GroupDRO(ERM):
 
 
 class JTT(ERM):
-    def __init__(self, hparams, dataset):
-        super(JTT, self).__init__(hparams, dataset)
+    def __init__(self, hparams, dataset, dataloader_min):
+        super(JTT, self).__init__(hparams, dataset, dataloader_min)
         self.register_buffer(
             "weights", torch.ones(self.n_examples, dtype=torch.long).cuda())
 
